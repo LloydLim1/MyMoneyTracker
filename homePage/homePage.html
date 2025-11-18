@@ -54,31 +54,52 @@
         <!-- ===== 2. Main Content Area ===== -->
         <main class="flex-1 p-8 overflow-y-auto">
 
+
             <!-- Top Summary Cards -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <!-- Total Money -->
                 <div class="bg-white p-6 rounded-lg shadow-sm">
                     <span class="text-gray-500 text-sm">Total Money</span>
-                    <div class="flex items-center justify-between mt-2">
-                        <span class="text-3xl font-bold text-gray-800">{{ formatCurrency(totalMoney) }}</span>
-                        <span class="text-xs font-semibold text-green-500 bg-green-100 px-2 py-1 rounded-full">+10%</span>
-                    </div>
+                    <div class="flex items-center justify-between mt-2 w-full">
+    <span class="font-bold text-gray-800 text-[clamp(0.75rem, 6vw, 2.5rem)] leading-tight">
+        {{ formatCurrency(totalMoney) }}
+    </span>
+
+    <span class="text-xs font-semibold bg-green-100 text-green-600 px-2 py-1 rounded-full ml-2">
+        +10%
+    </span>
+</div>
+
+
                 </div>
                 <!-- This Month's Income -->
                 <div class="bg-white p-6 rounded-lg shadow-sm">
                     <span class="text-gray-500 text-sm">This Month's Income</span>
-                    <div class="flex items-center justify-between mt-2">
-                        <span class="text-3xl font-bold text-gray-800">{{ formatCurrency(monthlyIncome) }}</span>
-                        <span class="text-xs font-semibold text-green-500 bg-green-100 px-2 py-1 rounded-full">+160%</span>
-                    </div>
+                    <div class="flex items-center justify-between mt-2 w-full">
+    <span class="font-bold text-gray-800 text-[clamp(0.75rem, 6vw, 2.5rem)] leading-tight">
+        {{ formatCurrency(monthlyIncome) }}
+    </span>
+
+    <span class="text-xs font-semibold bg-green-100 text-green-600 px-2 py-1 rounded-full ml-2">
+        +160%
+    </span>
+</div>
+
+
                 </div>
                 <!-- Expenses this month -->
                 <div class="bg-white p-6 rounded-lg shadow-sm">
                     <span class="text-gray-500 text-sm">Expenses this month</span>
-                    <div class="flex items-center justify-between mt-2">
-                        <span class="text-3xl font-bold text-gray-800">{{ formatCurrency(monthlyExpenses) }}</span>
-                        <span class="text-xs font-semibold text-red-500 bg-red-100 px-2 py-1 rounded-full">-100%</span>
-                    </div>
+                    <div class="flex items-center justify-between mt-2 w-full">
+    <span class="font-bold text-gray-800 text-[clamp(0.75rem, 6vw, 2.5rem)] leading-tight">
+        {{ formatCurrency(monthlyExpenses) }}
+    </span>
+
+    <span class="text-xs font-semibold bg-red-100 text-red-500 px-2 py-1 rounded-full ml-2">
+        -100%
+    </span>
+</div>
+
                 </div>
             </div>
 
@@ -170,16 +191,29 @@
         </main>
 
         <!-- ===== 3. Right Sidebar (My Card) ===== -->
-        <aside class="w-96 bg-white p-8 shadow-lg flex-shrink-0 hidden lg:block">
-            <!-- Header -->
-            <div class="flex justify-between items-center mb-6">
+        <aside class="w-65 bg-white p-8 shadow-lg flex-shrink-0 hidden lg:block">
+           <div class="flex justify-between items-center mb-3">
                 <h2 class="text-xl font-semibold text-gray-800">My Accounts</h2>
-                <a href="#" class="text-sm text-green-600 font-medium">+ Add Accounts</a>
             </div>
-
+            <div class="flex justify-between items-center mb-4">
+                <button class="text-sm text-green-600 font-medium hover:text-green-700 transition">+ Add Accounts</button>
+            </div>
             
 
-            
+            <div class="space-y-4">
+                <div v-for="account in accounts" :key="account.platformNumber" class="p-5 border border-gray-100 rounded-xl hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="font-bold text-gray-800">{{ account.platform }}</span>
+                        <i data-lucide="wallet" class="w-5 h-5 text-gray-400"></i>
+                    </div>
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <span class="text-xs text-gray-400 block">Balance</span>
+                            <span class="text-lg font-bold text-green-600"> {{ formatCurrency(account.availableAssets) }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </aside>
 
     </div>

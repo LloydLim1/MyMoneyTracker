@@ -5,19 +5,55 @@ createApp({
     setup() {
         // --- Reactive State ---
 
+        
+
         // Sidebar Navigation
         const activeNav = ref('Dashboard');
         const navItems = ref([
-            { name: 'Dashboard'},
-            { name: 'Transactions'},
-            { name: 'Records'},
-            { name: 'Settings'},
+            { name: 'Dashboard', icon: 'home' },
+            { name: 'Transactions', icon: 'credit-card' },
+            { name: 'Records', icon: 'file-text' },
+            { name: 'Settings', icon: 'settings' },
+        ]);
+
+        // --- Data Properties ---
+        const activeTab = ref('Expense');
+        const currentInput = ref('0');
+        
+        // "From" account
+        const selectedAccount = ref(null);
+        // "To" account (New)
+        const transferToAccount = ref(null);
+
+        const currentDateTime = ref('');
+        const keypadKeys = ref(['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0', '<']);
+        
+        const accounts = ref([
+            {
+                platform: 'Cash',
+                availableAssets: 5000.00 
+            },
+            {
+                platform: 'Bank - BDO',
+                availableAssets: 100000.00
+            },
+            {
+                platform: 'GCash',
+                availableAssets: 2500.50
+            }
         ]);
 
         // Top Cards
         const totalMoney = ref(20000);
         const monthlyIncome = ref(50000);
         const monthlyExpenses = ref(10000);
+
+        const loadAccountsFromStorage = () => {
+            const stored = localStorage.getItem('myMoneyAccounts');
+            if (stored) {
+                accounts.value = JSON.parse(stored);
+            }
+        };
 
         // Spending Report
         const spendingFilters = ref(['12 Months', '3 Months', '30 Days', '7 Days', '24 Hours']);
@@ -83,20 +119,14 @@ createApp({
             },
         ]);
 
-        // Card Details
-        const cardDetails = ref({
-            holderName: 'Liyod Emerton Lim',
-            cardNumber: '4787874984034787',
-            status: 'Active',
-            expiry: '09/26',
-            category: 'Gold',
-        });
-
 
         // --- Methods ---
 
         const setActiveNav = (item) => {
             activeNav.value = item;
+            if (item === 'Transactions') {
+                window.location.href = '../transactions/transactionPage.html';
+            }
         };
 
         const setSpendingFilter = (filter) => {
@@ -178,6 +208,9 @@ createApp({
 
         // --- Lifecycle Hooks ---
         onMounted(() => {
+            // Load accounts from localStorage
+            loadAccountsFromStorage();
+
             // Render the chart after the component is mounted
             renderChart();
 
@@ -195,7 +228,9 @@ createApp({
             spendingFilters,
             spendingReport,
             transactions,
-            cardDetails,
+            accounts,
+            activeTab,
+            currentInput,
             setActiveNav,
             setSpendingFilter,
             formatCurrency,
